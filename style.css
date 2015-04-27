@@ -1,0 +1,61 @@
+
+
+
+.collection {
+  margin: 0 20px;
+}
+
+
+.item {
+  width: 200px;
+  list-style-type:none;
+  background-color:brown;
+  padding:20px;
+  float:left;
+}
+
+.red { 
+  background-color:red;
+}
+
+.blue { 
+  background-color: blue;
+}
+
+.purple {
+  background-color:purple;
+}
+
+.item-big { width: 300px; }
+
+
+.overlay {
+  position:fixed;
+  height:100%;
+  width:100%;
+  left:0;
+  top:0;
+  background-color:rgba(0,0,0,0.3);
+  z-index: 2;
+  display:none;
+}
+
+
+.modal {
+  width: 400px;
+  position: fixed;
+  top: 5%;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  background-color:white;
+  padding:10px;
+  box-shadow: 10px 10px 10px rgba(0,0,0,0.5);
+  border-radius:10px;
+  z-index:4;
+  display:none;
+  max-height:90%;
+  overflow:auto;
+}
+
+.modal img { width:400px; height:400px; }

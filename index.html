@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Collection Example</title>
+  <script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
+  <script src='packery.pkgd.min.js'></script>
+  <script src='tabletop.js'></script>
+  <script src='collection.js'></script>
+  <link type='text/css' rel='stylesheet' href='style.css' />
+</head>
+<body>
+
+<input type='text' id='search' placeholder='search'/>
+<button id="blue-button">Blue</button>
+<button id="red-button">Red</button>
+<button id="all-button">All</button>
+
+<ul class='collection'>
+ 
+
+
+</ul>
+
+<div class='overlay'></div>
+<div class='modal'></div>
+<script>
+
+
+function showModal(item) {
+   $(".modal").empty();
+   
+   var $h1 = $("<h1>").text(item.Name);
+   var $img = $("<img>").attr("src",item.Image);
+   var $p = $("<p class='description'>").text(item.Description);
+
+   $(".modal").append($h1,$img,$p);
+   
+   $(".overlay").show();
+   $(".modal").show();
+
+}
+
+function hideModal() {
+  $(".overlay").hide();
+  $(".modal").hide();
+}
+
+
+function addItem(item) {
+
+  var $li = $("<div>").addClass("item").addClass(item.Color);
+
+  $li.attr("data-category",item.Color);
+
+  var $h2 = $("<h2 class='name'>").text(item.Name);
+  var $p = $("<p class='description'>").text(item.Description);
+
+  $li.append($h2).append($p);
+
+  $li.on("click",function(e) {
+      showModal(item);
+  });
+
+  $(".collection").append($li);
+};
+
+function addItems(data) {
+  for(var i=0;i<data.length;i++) {
+    addItem(data[i]);
+  }
+}
+
+
+function callback(data) { 
+
+  addItems(data);
+
+  var $container = $('.collection');
+  $container.packery({
+    itemSelector: '.item',
+    gutter: 10
+  });
+
+  var myCollection = $(".item").collection({
+    filters: { 
+      "title": "h2",
+      "category": "[data-category]"
+    },
+
+    update: function() { 
+      $container.packery(); 
+      setTimeout(function() { $container.packery()},600);
+    },
+    hide: function($elem) { $elem.hide(); },
+    show: function($elem) { $elem.fadeIn(500); },
+  });
+
+  $("#blue-button").on("click",function(e) {
+      myCollection.filtered("category","blue");
+  });
+
+  $("#red-button").on("click",function(e) {
+      myCollection.filtered("category","red");
+  });
+
+  $("#all-button").on("click",function(e) {
+      myCollection.filtered("category","");
+  });
+
+  $(".overlay").on("click",function(e) {
+      hideModal();
+
+  });
+
+  $("#search").on("change keyup",function(e) {
+      myCollection.filtered("title", $(this).val());
+  });
+
+  
+
+}
+
+
+  Tabletop.init( { key: "https://docs.google.com/spreadsheets/d/1uve3-Viu9SlwqwBR3__BGc6b18uNmNEW1RppZVq0FWs/pubhtml?gid=0&single=true",
+                   callback: callback,
+                   simpleSheet: true } )
+
+
+</script>
+	
+</body>
+</html>
