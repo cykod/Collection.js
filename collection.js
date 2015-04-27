@@ -45,7 +45,7 @@
         } else if(strictFilter) {
           filters[facet] = attributeValue == value
         } else {
-          filters[facet] =  attributeValue.includes(value.toLowerCase())
+          filters[facet] =  attributeValue.indexOf(value.toLowerCase()) != -1
         }
 
         $(this).data("filters",filters);
