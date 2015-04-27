@@ -36,7 +36,7 @@
           if($child.first().is("input")) {
             attributeValue = $child.val();
           } else if($child.length > 0) {
-            attributeValue = $child.map(function() { return $(this).text(); }).get().join(" ");
+            attributeValue = $child.map(function() { return $(this).text(); }).get().join(" ").toLowerCase();
           }
         }
 
@@ -45,7 +45,7 @@
         } else if(strictFilter) {
           filters[facet] = attributeValue == value
         } else {
-          filters[facet] =  attributeValue.includes(value)
+          filters[facet] =  attributeValue.includes(value.toLowerCase())
         }
 
         $(this).data("filters",filters);

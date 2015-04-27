@@ -36,7 +36,7 @@ function showModal(item) {
    
    var $h1 = $("<h1>").text(item.Name);
    var $img = $("<img>").attr("src",item.Image);
-   var $p = $("<p class='description'>").text(item.Description);
+   var $p = $("<p>").text(item.Description);
 
    $(".modal").append($h1,$img,$p);
    
@@ -51,14 +51,14 @@ function hideModal() {
 }
 
 function addItem(item) {
-  var $li = $("<div>").addClass("item").addClass(item.Color);
+  var $li = $("<li>").addClass("item").addClass(item.Color);
 
   $li.attr("data-category",item.Color);
 
   var $h2 = $("<h2 class='name'>").text(item.Name);
   var $p = $("<p class='description'>").text(item.Description);
 
-  $li.append($h2).append($p);
+  $li.append($h2,$p);
 
   $li.on("click",function(e) {
       showModal(item);
@@ -114,7 +114,6 @@ function callback(data) {
   });
 
 }
-
 
   Tabletop.init( { key: "https://docs.google.com/spreadsheets/d/1uve3-Viu9SlwqwBR3__BGc6b18uNmNEW1RppZVq0FWs/pubhtml?gid=0&single=true",
                    callback: callback,
