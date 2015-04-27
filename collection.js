@@ -43,7 +43,7 @@
         if(!value) {
           filters[facet] = true;
         } else if(strictFilter) {
-          filters[facet] = attributeValue == value
+          filters[facet] = attributeValue.toLowerCase() == value.toLowerCase()
         } else {
           filters[facet] =  attributeValue.indexOf(value.toLowerCase()) != -1
         }
