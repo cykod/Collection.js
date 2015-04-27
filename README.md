@@ -2,6 +2,8 @@
 
 Simple Collection filtering and searching API.
 
+Requires jQuery, use alone or with packery.
+
 # How to use
 
 Create a collection using a particular selector
@@ -38,6 +40,8 @@ Create a collection using a particular selector
         myCollection.filtered("category","");
     });
 
+# License
 
+Collection.js is licensed under the MIT License. Included Libararies are under their reespective licenses.
     
 

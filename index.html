@@ -4,17 +4,21 @@
   <meta charset="UTF-8">
   <title>Collection Example</title>
   <script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
-  <script src='packery.pkgd.min.js'></script>
-  <script src='tabletop.js'></script>
-  <script src='collection.js'></script>
+  <script src='http://cykod.github.io/Collection.js/packery.pkgd.min.js'></script>
+  <script src='http://cykod.github.io/Collection.js/tabletop.js'></script>
+  <script src='http://cykod.github.io/Collection.js/collection.js'></script>
   <link type='text/css' rel='stylesheet' href='style.css' />
 </head>
 <body>
 
-<input type='text' id='search' placeholder='search'/>
-<button id="blue-button">Blue</button>
-<button id="red-button">Red</button>
-<button id="all-button">All</button>
+<div id='filter-bar-wrapper'>
+  <div id='filter-bar'>
+    <input type='text' id='search' placeholder='search'/>
+    <button data-category=""      class='category selected' id="all-button">All</button>
+    <button data-category="blue"  class='category'>Blue</button>
+    <button data-category="red"   class='category'>Red</button>
+  </div>
+</div>
 
 <ul class='collection'>
  
@@ -46,9 +50,7 @@ function hideModal() {
   $(".modal").hide();
 }
 
-
 function addItem(item) {
-
   var $li = $("<div>").addClass("item").addClass(item.Color);
 
   $li.attr("data-category",item.Color);
@@ -96,28 +98,20 @@ function callback(data) {
     show: function($elem) { $elem.fadeIn(500); },
   });
 
-  $("#blue-button").on("click",function(e) {
-      myCollection.filtered("category","blue");
-  });
-
-  $("#red-button").on("click",function(e) {
-      myCollection.filtered("category","red");
-  });
-
-  $("#all-button").on("click",function(e) {
-      myCollection.filtered("category","");
-  });
-
-  $(".overlay").on("click",function(e) {
-      hideModal();
-
+  $(".category").on("click",function(e) {
+      var category = $(this).data("category");
+      $("#filter-bar button").removeClass("selected");
+      $(this).addClass("selected");
+      myCollection.filtered("category",category);
   });
 
   $("#search").on("change keyup",function(e) {
       myCollection.filtered("title", $(this).val());
   });
 
-  
+  $(".overlay").on("click",function(e) {
+      hideModal();
+  });
 
 }
 

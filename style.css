@@ -1,10 +1,44 @@
 
-
+body {
+  font-family:Arial;
+}
 
 .collection {
   margin: 0 20px;
 }
 
+
+#filter-bar-wrapper {
+  height:50px;
+}
+
+#filter-bar {
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  background-color:#EEE;
+  text-align:center;
+  height:40px;
+  padding-top:10px;
+  z-index:2;
+}
+
+.category {
+  background-color:white;
+  border:0px;
+  border-radius:5px;
+  padding:5px;
+}
+
+.category.selected {
+  background-color:black;
+  color:white;
+}
+
+#search  {
+  padding:5px;
+}
 
 .item {
   width: 200px;
@@ -12,6 +46,8 @@
   background-color:brown;
   padding:20px;
   float:left;
+  cursor:pointer;
+  border-radius:5px;
 }
 
 .red { 
@@ -19,7 +55,7 @@
 }
 
 .blue { 
-  background-color: blue;
+  background-color: lightblue;
 }
 
 .purple {
@@ -35,8 +71,8 @@
   width:100%;
   left:0;
   top:0;
-  background-color:rgba(0,0,0,0.3);
-  z-index: 2;
+  background-color:rgba(0,0,0,0.7);
+  z-index: 3;
   display:none;
 }
 
