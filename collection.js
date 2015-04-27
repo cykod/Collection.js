@@ -8,6 +8,7 @@
   $.fn.extend({
 
     filtered: function(facet, value, strictFilter) {
+      value = "" + (value || "");
 
       var collection = collections[this.selector || this];
 
@@ -26,7 +27,7 @@
 
         if(dataAttribute = selector.match(dataMatch)) {
           var attr = dataAttribute[1];
-          attributeValue = ($(this).data(attr)||"")
+          attributeValue = "" + ($(this).data(attr)||"")
         } else if(attrAttribute = selector.match(attrMatch)) {
           var attr = dataAttribute[1];
           attributeValue= ($(this).attr(attr)||"")
