@@ -46,7 +46,7 @@
         } else if(strictFilter) {
           filters[facet] = attributeValue.toLowerCase() == value.toLowerCase()
         } else {
-          filters[facet] =  attributeValue.indexOf(value.toLowerCase()) != -1
+          filters[facet] =  attributeValue.toLowerCase().indexOf(value.toLowerCase()) != -1
         }
 
         $(this).data("filters",filters);
