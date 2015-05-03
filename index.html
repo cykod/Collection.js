@@ -17,6 +17,8 @@
     <button data-category=""      class='category selected' id="all-button">All</button>
     <button data-category="BLUE"  class='category'>Blue</button>
     <button data-category="red"   class='category'>Red</button>
+    <button data-order="category"    class="order">Order by Color</button>
+    <button data-order="title"    class="order">Order by Title</button>
   </div>
 </div>
 
@@ -51,7 +53,7 @@ function hideModal() {
 }
 
 function addItem(item) {
-  var $li = $("<li>").addClass("item").addClass(item.Color);
+  var $li = $("<li>").addClass("item").addClass(item.Color.toLowerCase());
 
   $li.attr("data-category",item.Color);
 
@@ -81,7 +83,7 @@ function callback(data) {
   var $container = $('.collection');
   $container.packery({
     itemSelector: '.item',
-    gutter: 10
+    gutter: 10,
   });
 
   var myCollection = $(".item").collection({
@@ -94,16 +96,30 @@ function callback(data) {
       $container.packery(); 
       setTimeout(function() { $container.packery()},600);
     },
+    ordered: function() {
+      $container.packery('reloadItems');
+      console.log("Whoa");
+    },
     hide: function($elem) { $elem.hide(); },
     show: function($elem) { $elem.fadeIn(500); },
   });
 
   $(".category").on("click",function(e) {
       var category = $(this).data("category");
-      $("#filter-bar button").removeClass("selected");
+      $("#filter-bar button.category").removeClass("selected");
       $(this).addClass("selected");
       myCollection.filtered("category",category);
   });
+
+
+  $(".order").on("click",function(e) {
+      var order = $(this).data("order");
+      $("#filter-bar button.category").removeClass("selected");
+      $(this).addClass("selected");
+      myCollection.ordered(order);
+  });
+
+
 
   $("#search").on("change keyup",function(e) {
       myCollection.filtered("title", $(this).val());

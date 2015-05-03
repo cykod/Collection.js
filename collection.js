@@ -5,7 +5,83 @@
   var dataMatch = /^\[data\-([^\]]+)\]$/i;
   var attrMatch =  /^\[([^\]]+)\]$/i;
 
+
+  function getAttributeValue(elem, selector) {
+    var attrAttribute, attributeValue = "", dataAttribute;
+
+    if(dataAttribute = selector.match(dataMatch)) {
+      var attr = dataAttribute[1];
+      attributeValue = "" + ($(elem).data(attr)||"")
+    } else if(attrAttribute = selector.match(attrMatch)) {
+      var attr = dataAttribute[1];
+      attributeValue= ($(elem).attr(attr)||"")
+    } else {
+      var $child = $(elem).find(selector);
+
+      if($child.first().is("input")) {
+        attributeValue = $child.val();
+      } else if($child.length > 0) {
+        attributeValue = $child.map(function() { return $(this).text(); }).get().join(" ").toLowerCase();
+      }
+    }
+
+    return attributeValue;
+  }
+
   $.fn.extend({
+
+
+    ordered: function(facet) {
+      var collection = collections[this.selector || this];
+
+      if(!collection) { console.log("invalid collection"); return; }
+
+      var selector = collection.filters[facet];
+      if(!selector) { console.log("invalid filter"); return; }
+
+      var attributeValue = null;
+
+      var $sorted = $(this);
+
+      $sorted.sort(function(a,b) {
+        
+        var aValue = getAttributeValue(a,selector);
+        var bValue = getAttributeValue(b,selector);
+
+        if(!isNaN(aValue) && !isNaN(bValue)) {
+          aValue = parseFloat(aValue);
+          bValue = parseFloat(bValue);
+        } else {
+          aValue = aValue.toLowerCase();
+          bValue = bValue.toLowerCase();
+        }
+
+        if(aValue > bValue) {
+          return 1;
+        }
+        if(aValue < bValue) {
+          return -1;
+        }
+        return 0;
+
+      });
+
+      var $container = $sorted.parent();
+
+      $sorted.detach().appendTo($container);
+
+      if(collection.ordered) {
+        collection.ordered();
+      }
+
+      if(collection.update) {
+        collection.update();
+      }
+
+
+      return $(this.selector || this);
+
+    },
 
     filtered: function(facet, value, strictFilter) {
       value = "" + (value || "");
@@ -21,25 +97,10 @@
 
       $(this).each(function() {
 
-        var dataAttribute, attrAttribute, attributeValue = "";
 
         var filters = $(this).data("filters") || {};
 
-        if(dataAttribute = selector.match(dataMatch)) {
-          var attr = dataAttribute[1];
-          attributeValue = "" + ($(this).data(attr)||"")
-        } else if(attrAttribute = selector.match(attrMatch)) {
-          var attr = dataAttribute[1];
-          attributeValue= ($(this).attr(attr)||"")
-        } else {
-          var $child = $(this).find(selector);
-
-          if($child.first().is("input")) {
-            attributeValue = $child.val();
-          } else if($child.length > 0) {
-            attributeValue = $child.map(function() { return $(this).text(); }).get().join(" ").toLowerCase();
-          }
-        }
+        var attributeValue = getAttributeValue(this,selector);
 
         if(!value) {
           filters[facet] = true;
@@ -92,6 +153,10 @@
 
       });
 
+
+      if(collection.filtered) {
+        collection.filtered();
+      }
       if(collection.update) {
         collection.update();
       }
