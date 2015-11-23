@@ -42,6 +42,6 @@ Create a collection using a particular selector
 
 # License
 
-Collection.js is licensed under the MIT License. Included Libararies are under their reespective licenses.
+Collection.js is licensed under the MIT License. Included Libraries are under their respective licenses.
     
 
